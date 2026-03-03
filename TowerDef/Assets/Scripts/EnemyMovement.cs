@@ -8,7 +8,11 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        if (currentWaypoint >= waypoints.Length) return;
+        if (currentWaypoint >= waypoints.Length)
+        {
+            ReachEnd();
+            return;
+        }
 
         Transform target = waypoints[currentWaypoint];
         transform.position = Vector3.MoveTowards(transform.position,
@@ -21,5 +25,12 @@ public class EnemyMovement : MonoBehaviour
 
         if (Vector3.Distance(transform.position, target.position) < 0.1f)
             currentWaypoint++;
+    }
+
+    void ReachEnd()
+    {
+        GameManager.Instance.TakeDamage(1);
+        Debug.Log("Enemy reached the end!");
+        Destroy(gameObject);
     }
 }
