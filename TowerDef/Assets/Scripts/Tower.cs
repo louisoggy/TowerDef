@@ -21,8 +21,9 @@ public class Tower : MonoBehaviour
         fireCooldown -= Time.deltaTime;
         if (fireCooldown <= 0f)
         {
-            Debug.Log("Tower firing at: " + target.name);
-            fireCooldown = 1f / fireRate;
+            EnemyHealth enemyHealth = target.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+                enemyHealth.TakeDamage(10f);
         }
     }
 
