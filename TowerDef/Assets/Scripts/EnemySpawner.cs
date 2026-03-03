@@ -4,29 +4,72 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public Transform[] waypoints;
-    public float spawnInterval = 2f;
-    public int enemiesPerWave = 5;
 
+    [System.Serializable]
+    public class Wave
+    {
+        public int enemyCount;
+        public float spawnInterval;
+    }
+
+    public Wave[] waves;
+    public float timeBetweenWaves = 5f;
+
+    private int currentWave = 0;
     private int enemiesSpawned = 0;
     private float spawnTimer = 0f;
-    private bool waveActive = true;
+    private float waveDelayTimer = 0f;
+    private bool waitingForNextWave = false;
+    private bool allWavesComplete = false;
+
+    void Start()
+    {
+        // start first wave immediately
+        waitingForNextWave = false;
+    }
 
     void Update()
     {
-        if (!waveActive) return;
+        if (allWavesComplete) return;
 
+        // Waiting between waves
+        if (waitingForNextWave)
+        {
+            waveDelayTimer += Time.deltaTime;
+            if (waveDelayTimer >= timeBetweenWaves)
+            {
+                waitingForNextWave = false;
+                waveDelayTimer = 0f;
+                enemiesSpawned = 0;
+                Debug.Log("Wave " + (currentWave + 1) + " starting!");
+                GameManager.Instance.currentWave = currentWave + 1;
+                GameManager.Instance.UpdateUI();
+            }
+            return;
+        }
+
+        // spawning enemies in current wave
+        Wave wave = waves[currentWave];
         spawnTimer += Time.deltaTime;
 
-        if (spawnTimer >= spawnInterval && enemiesSpawned < enemiesPerWave)
+        if (spawnTimer >= wave.spawnInterval && enemiesSpawned < wave.enemyCount)
         {
             SpawnEnemy();
             spawnTimer = 0f;
         }
 
-        if (enemiesSpawned >= enemiesPerWave)
+        // Check if wave is done
+        if (enemiesSpawned >= wave.enemyCount)
         {
-            waveActive = false;
-            Debug.Log("Wave complete!");
+            currentWave++;
+            if (currentWave >= waves.Length)
+            {
+                allWavesComplete = true;
+                Debug.Log("All waves complete!");
+                return;
+            }
+            waitingForNextWave = true;
+            Debug.Log("Wave complete! Next wave in " + timeBetweenWaves + " seconds.");
         }
     }
 
@@ -38,6 +81,6 @@ public class EnemySpawner : MonoBehaviour
             movement.waypoints = waypoints;
 
         enemiesSpawned++;
-        Debug.Log("Enemy " + enemiesSpawned + " spawned!");
+        Debug.Log("Spawned enemy " + enemiesSpawned);
     }
 }

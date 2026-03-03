@@ -4,10 +4,8 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
     public int playerHealth = 20;
     public int currentWave = 1;
-
     public TMP_Text healthText;
     public TMP_Text waveText;
 
@@ -16,15 +14,23 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    void Update()
+    void Start()
     {
-        healthText.text = "Lives: " + playerHealth;
-        waveText.text = "Wave: " + currentWave;
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        if (healthText != null)
+            healthText.text = "Lives: " + playerHealth;
+        if (waveText != null)
+            waveText.text = "Wave: " + currentWave;
     }
 
     public void TakeDamage(int amount)
     {
         playerHealth -= amount;
+        UpdateUI();
         Debug.Log("Player health: " + playerHealth);
 
         if (playerHealth <= 0)
