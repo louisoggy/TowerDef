@@ -4,6 +4,7 @@ public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     private float currentHealth;
+    public int goldReward = 10;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
         Debug.Log(gameObject.name + " died!");
+        GameManager.Instance.AddGold(goldReward);
         Destroy(gameObject);
     }
 }

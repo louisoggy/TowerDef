@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public int currentWave = 1;
     public TMP_Text healthText;
     public TMP_Text waveText;
+    public int gold = 100;
+    public TMP_Text goldText;
 
     void Awake()
     {
@@ -19,12 +21,29 @@ public class GameManager : MonoBehaviour
         UpdateUI();
     }
 
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        Debug.Log("Gold: " + gold);
+        UpdateUI();
+    }
+
+    public bool SpendGold(int amount)
+    {
+        if (gold < amount) return false;
+        gold -= amount;
+        UpdateUI();
+        return true;
+    }
+
     public void UpdateUI()
     {
         if (healthText != null)
             healthText.text = "Lives: " + playerHealth;
         if (waveText != null)
             waveText.text = "Wave: " + currentWave;
+        if (goldText != null)
+            goldText.text = "Gold: " + gold;
     }
 
     public void TakeDamage(int amount)

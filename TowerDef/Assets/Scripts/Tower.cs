@@ -24,6 +24,8 @@ public class Tower : MonoBehaviour
             EnemyHealth enemyHealth = target.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
                 enemyHealth.TakeDamage(10f);
+
+            fireCooldown = 3f / fireRate;
         }
     }
 
