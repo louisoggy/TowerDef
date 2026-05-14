@@ -20,7 +20,14 @@ public class EnemySpawner : MonoBehaviour
     private float spawnTimer = 0f;
     private float waveDelayTimer = 0f;
     private bool waitingForNextWave = false;
-    private bool allWavesComplete = false;
+    public bool allWavesComplete = false;
+
+    public static EnemySpawner Instance;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -65,7 +72,7 @@ public class EnemySpawner : MonoBehaviour
             if (currentWave >= waves.Length)
             {
                 allWavesComplete = true;
-                Debug.Log("All waves complete!");
+                Debug.Log("All waves spawned!");
                 return;
             }
             waitingForNextWave = true;

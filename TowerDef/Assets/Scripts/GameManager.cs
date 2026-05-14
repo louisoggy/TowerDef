@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text waveText;
     public int gold = 50;
     public TMP_Text goldText;
+    public GameObject gameOverPanel;
+    public GameObject winPanel;
 
     void Awake()
     {
@@ -50,11 +52,23 @@ public class GameManager : MonoBehaviour
     {
         playerHealth -= amount;
         UpdateUI();
-        Debug.Log("Player health: " + playerHealth);
-
         if (playerHealth <= 0)
         {
-            Debug.Log("Game Over!");
+            gameOverPanel.SetActive(true);
+            Time.timeScale = 0f;
         }
+    }
+
+    public void WinGame()
+    {
+        winPanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 }

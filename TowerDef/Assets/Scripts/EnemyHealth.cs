@@ -53,5 +53,12 @@ public class EnemyHealth : MonoBehaviour
         if (healthBarInstance != null)
             Destroy(healthBarInstance);
         Destroy(gameObject);
+
+        // check if all enemies are dead and all waves are done
+        if (EnemySpawner.Instance.allWavesComplete &&
+            GameObject.FindGameObjectsWithTag("Enemy").Length == 1)
+        {
+            GameManager.Instance.WinGame();
+        }
     }
 }
