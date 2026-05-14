@@ -6,6 +6,12 @@ public class Tower : MonoBehaviour
     public float fireRate = 1f;
     private float fireCooldown = 0f;
     private Transform target;
+    private Animator animator;
+
+    void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
 
     void Update()
     {
@@ -24,6 +30,8 @@ public class Tower : MonoBehaviour
             EnemyHealth enemyHealth = target.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
                 enemyHealth.TakeDamage(10f);
+            if (animator != null)
+                animator.SetBool("IsAttacking", true);
 
             fireCooldown = 1f / fireRate;
         }
@@ -35,6 +43,8 @@ public class Tower : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(transform.position, range);
         float closestDistance = Mathf.Infinity;
         target = null;
+        if (animator != null)
+            animator.SetBool("IsAttacking", false);
 
         foreach (Collider hit in hits)
         {
