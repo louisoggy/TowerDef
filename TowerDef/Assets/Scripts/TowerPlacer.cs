@@ -1,12 +1,17 @@
 using UnityEngine;
+
 public class TowerPlacer : MonoBehaviour
 {
-    public GameObject towerPrefab;
+    public GameObject[] towerPrefabs; // 0 = Mage, 1 = Support
+    public int[] towerCosts;
     public LayerMask placementLayer;
-    public int towerCost = 50;
+    private int selectedTower = 0;
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) selectedTower = 0;
+        if (Input.GetKeyDown(KeyCode.Alpha2)) selectedTower = 1;
+
         if (Input.GetMouseButtonDown(0))
         {
             PlaceTower();
@@ -19,7 +24,8 @@ public class TowerPlacer : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, placementLayer))
         {
-            if (!GameManager.Instance.SpendGold(towerCost))
+            int cost = towerCosts[selectedTower];
+            if (!GameManager.Instance.SpendGold(cost))
             {
                 Debug.Log("Not enough gold!");
                 return;
@@ -30,8 +36,8 @@ public class TowerPlacer : MonoBehaviour
                 hit.transform.position.y + hit.transform.localScale.y,
                 hit.transform.position.z
             );
-            Instantiate(towerPrefab, placementPosition, Quaternion.identity);
-            Debug.Log("Tower placed at: " + placementPosition);
+            Instantiate(towerPrefabs[selectedTower], placementPosition, Quaternion.identity);
+            Debug.Log("Placed tower " + selectedTower + " at: " + placementPosition);
         }
     }
 }
