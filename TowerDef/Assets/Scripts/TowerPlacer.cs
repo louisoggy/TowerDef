@@ -1,9 +1,9 @@
 using UnityEngine;
-
 public class TowerPlacer : MonoBehaviour
 {
     public GameObject towerPrefab;
     public LayerMask placementLayer;
+    public int towerCost = 50;
 
     void Update()
     {
@@ -17,16 +17,19 @@ public class TowerPlacer : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, placementLayer))
         {
-            // Place tower
+            if (!GameManager.Instance.SpendGold(towerCost))
+            {
+                Debug.Log("Not enough gold!");
+                return;
+            }
+
             Vector3 placementPosition = new Vector3(
                 hit.transform.position.x,
                 hit.transform.position.y + hit.transform.localScale.y,
                 hit.transform.position.z
             );
-
             Instantiate(towerPrefab, placementPosition, Quaternion.identity);
             Debug.Log("Tower placed at: " + placementPosition);
         }

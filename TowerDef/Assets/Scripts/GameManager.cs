@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public int currentWave = 1;
     public TMP_Text healthText;
     public TMP_Text waveText;
-    public int gold = 100;
+    public int gold = 50;
     public TMP_Text goldText;
 
     void Awake()
