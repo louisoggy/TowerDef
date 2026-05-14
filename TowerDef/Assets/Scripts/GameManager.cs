@@ -6,12 +6,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int playerHealth = 20;
     public int currentWave = 1;
+    public int gold = 50;
     public TMP_Text healthText;
     public TMP_Text waveText;
-    public int gold = 50;
+    public TMP_Text fpsText;
     public TMP_Text goldText;
     public GameObject gameOverPanel;
     public GameObject winPanel;
+    
 
     void Awake()
     {
@@ -21,6 +23,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UpdateUI();
+    }
+
+    void Update()
+    {
+        float fps = 1f / Time.deltaTime;
+        if (fpsText != null)
+            fpsText.text = "FPS: " + Mathf.Round(fps);
     }
 
     public void AddGold(int amount)
