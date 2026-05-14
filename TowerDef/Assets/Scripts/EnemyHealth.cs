@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth = 100f;
     private float currentHealth;
     public int goldReward = 10;
+    public float healthBarHeight = 2f;
 
     public GameObject healthBarPrefab;
     private Image healthBarFill;
@@ -18,7 +19,7 @@ public class EnemyHealth : MonoBehaviour
         if (healthBarPrefab != null)
         {
             healthBarInstance = Instantiate(healthBarPrefab,
-                transform.position + Vector3.up * 2f,
+                transform.position + Vector3.up * healthBarHeight,
                 Quaternion.identity);
             // get the fill image (second child canvas)
             healthBarFill = healthBarInstance.GetComponentsInChildren<Image>()[1];
@@ -30,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
         if (healthBarInstance != null)
         {
             // keep bar above enemy
-            healthBarInstance.transform.position = transform.position + Vector3.up * 2f;
+            healthBarInstance.transform.position = transform.position + Vector3.up * healthBarHeight;
             // face the camera
             healthBarInstance.transform.forward = Camera.main.transform.forward;
         }
