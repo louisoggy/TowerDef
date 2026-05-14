@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
     {
         public int enemyCount;
         public float spawnInterval;
+        public GameObject enemyPrefab;
     }
 
     public Wave[] waves;
@@ -82,11 +83,12 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        Wave wave = waves[currentWave];
+        GameObject prefabToSpawn = wave.enemyPrefab != null ? wave.enemyPrefab : enemyPrefab;
+        GameObject enemy = Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
         EnemyMovement movement = enemy.GetComponent<EnemyMovement>();
         if (movement != null)
             movement.waypoints = waypoints;
-
         enemiesSpawned++;
         Debug.Log("Spawned enemy " + enemiesSpawned);
     }
