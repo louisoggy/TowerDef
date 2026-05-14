@@ -7,14 +7,16 @@ public class EnemyHealth : MonoBehaviour
     private float currentHealth;
     public int goldReward = 10;
     public float healthBarHeight = 2f;
-
+    private Animator animator;
     public GameObject healthBarPrefab;
     private Image healthBarFill;
     private GameObject healthBarInstance;
+    private bool isDead = false;
 
     void Start()
     {
         currentHealth = maxHealth;
+        animator = GetComponentInChildren<Animator>();
 
         if (healthBarPrefab != null)
         {
@@ -39,6 +41,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (isDead) return;
         currentHealth -= amount;
 
         if (healthBarFill != null)
@@ -50,10 +53,13 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        isDead = true;
         GameManager.Instance.AddGold(goldReward);
         if (healthBarInstance != null)
             Destroy(healthBarInstance);
-        Destroy(gameObject);
+        if (animator != null)
+            animator.SetBool("IsDead", true);
+        Destroy(gameObject, 2f);
 
         // check if all enemies are dead and all waves are done
         if (EnemySpawner.Instance.allWavesComplete &&
