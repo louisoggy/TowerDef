@@ -99,5 +99,5 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 # Assets from store
-Assets/FantasyEnvironments/
-Assets/FantasyEnvironments.meta
+TowerDef/Assets/FantasyEnvironments/
+TowerDef/Assets/FantasyEnvironments.meta
