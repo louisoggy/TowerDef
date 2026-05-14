@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -6,26 +7,51 @@ public class EnemyHealth : MonoBehaviour
     private float currentHealth;
     public int goldReward = 10;
 
+    public GameObject healthBarPrefab;
+    private Image healthBarFill;
+    private GameObject healthBarInstance;
+
     void Start()
     {
         currentHealth = maxHealth;
+
+        if (healthBarPrefab != null)
+        {
+            healthBarInstance = Instantiate(healthBarPrefab,
+                transform.position + Vector3.up * 2f,
+                Quaternion.identity);
+            // get the fill image (second child canvas)
+            healthBarFill = healthBarInstance.GetComponentsInChildren<Image>()[1];
+        }
+    }
+
+    void Update()
+    {
+        if (healthBarInstance != null)
+        {
+            // keep bar above enemy
+            healthBarInstance.transform.position = transform.position + Vector3.up * 2f;
+            // face the camera
+            healthBarInstance.transform.forward = Camera.main.transform.forward;
+        }
     }
 
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
-        Debug.Log(gameObject.name + " health: " + currentHealth);
+
+        if (healthBarFill != null)
+            healthBarFill.fillAmount = currentHealth / maxHealth;
 
         if (currentHealth <= 0)
-        {
             Die();
-        }
     }
 
     void Die()
     {
-        Debug.Log(gameObject.name + " died!");
         GameManager.Instance.AddGold(goldReward);
+        if (healthBarInstance != null)
+            Destroy(healthBarInstance);
         Destroy(gameObject);
     }
 }
