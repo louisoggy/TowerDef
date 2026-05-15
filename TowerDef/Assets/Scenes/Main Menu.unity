@@ -316,9 +316,9 @@ MonoBehaviour:
   m_text: The sacred forest known as the First Lands has stood for thousands of years,
     protected by an ancient vow sworn by the mages of the realm. A growing shadow
     army of assassins has broken through the outer defences and now marches through
-    the forest paths. The player, as guardian of the First Lands, must deploy mage
-    towers and support structures to repel the invaders and uphold the vow before
-    the forest falls.
+    the forest paths. YOU, as guardian of the First Lands, must deploy mage towers
+    and support structures to repel the invaders and uphold the vow before the forest
+    falls.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
