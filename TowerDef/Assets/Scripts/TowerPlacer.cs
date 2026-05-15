@@ -16,6 +16,19 @@ public class TowerPlacer : MonoBehaviour
         {
             PlaceTower();
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedTower = 0;
+            GameManager.Instance.UpdateSelectedTower("Mage Tower");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectedTower = 1;
+            GameManager.Instance.UpdateSelectedTower("Support Tower");
+        }
+        if (Input.GetMouseButtonDown(0))
+            PlaceTower();
     }
 
     void PlaceTower()

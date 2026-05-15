@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text waveText;
     public TMP_Text fpsText;
     public TMP_Text goldText;
+    public TMP_Text selectedTowerText;
     public GameObject gameOverPanel;
     public GameObject winPanel;
     
@@ -79,5 +80,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         UnityEngine.SceneManagement.SceneManager.LoadScene(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void UpdateSelectedTower(string towerName)
+    {
+        if (selectedTowerText != null)
+            selectedTowerText.text = "Selected: " + towerName;
     }
 }
