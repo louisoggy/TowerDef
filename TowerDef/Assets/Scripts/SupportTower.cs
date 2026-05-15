@@ -2,25 +2,28 @@ using UnityEngine;
 
 public class SupportTower : MonoBehaviour
 {
-    public float supportRange = 20f;
-    public float fireRateBonus = 2f;
+    public float supportRange = 20f;   // radius in which nearby towers receive the bonus
+    public float fireRateBonus = 2f;   // multiplier applied to fire rate of towers in range
+
     private LineRenderer lineRenderer;
-    private int segments = 60;
+    private int segments = 60;         // smoothness of range circle
 
     void Start()
     {
         SetupRangeIndicator();
         DrawRangeCircle();
-        lineRenderer.enabled = false;
+        lineRenderer.enabled = false;  // hide range circle
         ApplyBonus();
     }
 
+    // toggle range circle visibility
     public void SetRangeVisible(bool visible)
     {
         if (lineRenderer != null)
             lineRenderer.enabled = visible;
     }
 
+    // create and configure the LineRenderer for the range circle
     void SetupRangeIndicator()
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -33,6 +36,7 @@ public class SupportTower : MonoBehaviour
         lineRenderer.endColor = Color.blue;
     }
 
+    // draw the range circle using trig to place points around the tower
     void DrawRangeCircle()
     {
         float angle = 0f;
@@ -48,6 +52,7 @@ public class SupportTower : MonoBehaviour
         }
     }
 
+    // find all towers in range and multiply their fire rate by the bonus
     void ApplyBonus()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, supportRange);
@@ -62,6 +67,7 @@ public class SupportTower : MonoBehaviour
         }
     }
 
+    // visualise support range in the editor when selected
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
