@@ -9,7 +9,7 @@ public class Tower : MonoBehaviour
     private Animator animator;
     private LineRenderer lineRenderer;
     private int segments = 60;
-
+    private AudioSource audioSource;
     public enum TargetingMode { Nearest, Strongest, First }
     public TargetingMode targetingMode = TargetingMode.Nearest;
 
@@ -19,6 +19,7 @@ public class Tower : MonoBehaviour
         SetupRangeIndicator();
         DrawRangeCircle();
         lineRenderer.enabled = false;
+        audioSource = GetComponentInChildren<AudioSource>();
     }
 
     void Update()
@@ -39,6 +40,8 @@ public class Tower : MonoBehaviour
                 enemyHealth.TakeDamage(10f);
             if (animator != null)
                 animator.SetBool("IsAttacking", true);
+            if (audioSource != null)
+                audioSource.PlayOneShot(audioSource.clip);
             fireCooldown = 1f / fireRate;
         }
     }
