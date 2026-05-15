@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text goldText;
     public TMP_Text fpsText;
     public TMP_Text selectedTowerText;
+    public TMP_Text targetingModeText;
     public int gold = 200;
     public GameObject gameOverPanel;
     public GameObject winPanel;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UpdateUI();
+        UpdateTargetingModeUI("Nearest");
     }
 
     void Update()
@@ -86,6 +88,12 @@ public class GameManager : MonoBehaviour
             gameOverPanel.SetActive(true);
             Time.timeScale = 0f;
         }
+    }
+
+    public void UpdateTargetingModeUI(string mode)
+    {
+        if (targetingModeText != null)
+            targetingModeText.text = "Targeting: " + mode;
     }
 
     public void WinGame()

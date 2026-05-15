@@ -6,6 +6,7 @@ public class TowerPlacer : MonoBehaviour
     public int[] towerCosts;
     public LayerMask placementLayer;
     private int selectedTower = 0;
+    private Tower.TargetingMode selectedTargetingMode = Tower.TargetingMode.Nearest;
 
     void Update()
     {
@@ -21,6 +22,11 @@ public class TowerPlacer : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(0))
             PlaceTower();
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            selectedTargetingMode = (Tower.TargetingMode)(((int)selectedTargetingMode + 1) % 3);
+            GameManager.Instance.UpdateTargetingModeUI(selectedTargetingMode.ToString());
+        }
     }
 
     void PlaceTower()
@@ -43,8 +49,10 @@ public class TowerPlacer : MonoBehaviour
                 hit.transform.position.y + hit.transform.localScale.y,
                 hit.transform.position.z
             );
-            Instantiate(towerPrefabs[selectedTower], placementPosition, Quaternion.identity);
-            Debug.Log("Placed tower " + selectedTower + " at: " + placementPosition);
+            GameObject placed = Instantiate(towerPrefabs[selectedTower], placementPosition, Quaternion.identity);
+            Tower tower = placed.GetComponentInChildren<Tower>();
+            if (tower != null)
+                tower.targetingMode = selectedTargetingMode;
         }
     }
 }
