@@ -8,6 +8,9 @@ public class Tower : MonoBehaviour
     private Transform target;
     private Animator animator;
 
+    public enum TargetingMode { Nearest, Strongest, First }
+    public TargetingMode targetingMode = TargetingMode.Nearest;
+
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
@@ -39,23 +42,40 @@ public class Tower : MonoBehaviour
 
     void FindTarget()
     {
-        // find enemies in range
+        // find all enemies in range
         Collider[] hits = Physics.OverlapSphere(transform.position, range);
-        float closestDistance = Mathf.Infinity;
+        float bestValue = Mathf.Infinity;
         target = null;
+
         if (animator != null)
             animator.SetBool("IsAttacking", false);
 
+        // evaluate each enemy based on targeting mode
         foreach (Collider hit in hits)
         {
-            if (hit.CompareTag("Enemy"))
+            if (!hit.CompareTag("Enemy")) continue;
+
+            float value = 0f;
+
+            if (targetingMode == TargetingMode.Nearest)
             {
-                float distance = Vector3.Distance(transform.position, hit.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    target = hit.transform;
-                }
+                value = Vector3.Distance(transform.position, hit.transform.position);
+            }
+            else if (targetingMode == TargetingMode.Strongest)
+            {
+                EnemyHealth eh = hit.GetComponent<EnemyHealth>();
+                value = eh != null ? -eh.currentHealth : 0f;
+            }
+            else if (targetingMode == TargetingMode.First)
+            {
+                EnemyMovement em = hit.GetComponent<EnemyMovement>();
+                value = em != null ? -em.currentWaypoint : 0f;
+            }
+
+            if (value < bestValue)
+            {
+                bestValue = value;
+                target = hit.transform;
             }
         }
     }

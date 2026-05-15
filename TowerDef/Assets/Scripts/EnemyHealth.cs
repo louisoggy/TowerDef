@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
-    private float currentHealth;
+    public float currentHealth;
     public int goldReward = 10;
     public float healthBarHeight = 2f;
     private Animator animator;
