@@ -15,10 +15,10 @@ public class SupportTower : MonoBehaviour
         ApplyBonus();
     }
 
-    void Update()
+    public void SetRangeVisible(bool visible)
     {
-        if (Input.GetKeyDown(KeyCode.R))
-            lineRenderer.enabled = !lineRenderer.enabled;
+        if (lineRenderer != null)
+            lineRenderer.enabled = visible;
     }
 
     void SetupRangeIndicator()

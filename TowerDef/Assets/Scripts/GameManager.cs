@@ -7,15 +7,15 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int playerHealth = 20;
     public int currentWave = 1;
-    public int gold = 50;
     public TMP_Text healthText;
     public TMP_Text waveText;
-    public TMP_Text fpsText;
     public TMP_Text goldText;
+    public TMP_Text fpsText;
     public TMP_Text selectedTowerText;
+    public int gold = 200;
     public GameObject gameOverPanel;
     public GameObject winPanel;
-    
+    private bool rangeVisible = false;
 
     void Awake()
     {
@@ -32,6 +32,28 @@ public class GameManager : MonoBehaviour
         float fps = 1f / Time.deltaTime;
         if (fpsText != null)
             fpsText.text = "FPS: " + Mathf.Round(fps);
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            rangeVisible = !rangeVisible;
+            Tower[] towers = FindObjectsByType<Tower>(FindObjectsSortMode.None);
+            foreach (Tower t in towers)
+                t.SetRangeVisible(rangeVisible);
+
+            SupportTower[] supportTowers = FindObjectsByType<SupportTower>(FindObjectsSortMode.None);
+            foreach (SupportTower s in supportTowers)
+                s.SetRangeVisible(rangeVisible);
+        }
+    }
+
+    public void UpdateUI()
+    {
+        if (healthText != null)
+            healthText.text = "Lives: " + playerHealth;
+        if (waveText != null)
+            waveText.text = "Wave: " + currentWave;
+        if (goldText != null)
+            goldText.text = "Gold: " + gold;
     }
 
     public void AddGold(int amount)
@@ -49,14 +71,10 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void UpdateUI()
+    public void UpdateSelectedTower(string towerName)
     {
-        if (healthText != null)
-            healthText.text = "Lives: " + playerHealth;
-        if (waveText != null)
-            waveText.text = "Wave: " + currentWave;
-        if (goldText != null)
-            goldText.text = "Gold: " + gold;
+        if (selectedTowerText != null)
+            selectedTowerText.text = "Selected: " + towerName;
     }
 
     public void TakeDamage(int amount)
@@ -76,22 +94,15 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    public void RestartGame()
-    {
-        Time.timeScale = 1f;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(
-            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
-
-    public void UpdateSelectedTower(string towerName)
-    {
-        if (selectedTowerText != null)
-            selectedTowerText.text = "Selected: " + towerName;
-    }
-
     public void LoadNextLevel()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Level2");
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
