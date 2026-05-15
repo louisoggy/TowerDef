@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -86,5 +87,11 @@ public class GameManager : MonoBehaviour
     {
         if (selectedTowerText != null)
             selectedTowerText.text = "Selected: " + towerName;
+    }
+
+    public void LoadNextLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Level2");
     }
 }
