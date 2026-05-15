@@ -92,4 +92,5 @@ public class EnemySpawner : MonoBehaviour
         enemiesSpawned++;
         Debug.Log("Spawned enemy " + enemiesSpawned);
     }
+
 }

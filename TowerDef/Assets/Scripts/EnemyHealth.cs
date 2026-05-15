@@ -12,6 +12,7 @@ public class EnemyHealth : MonoBehaviour
     private Image healthBarFill;
     private GameObject healthBarInstance;
     private bool isDead = false;
+    private bool hasRoared = false;
 
     void Start()
     {
@@ -47,8 +48,22 @@ public class EnemyHealth : MonoBehaviour
         if (healthBarFill != null)
             healthBarFill.fillAmount = currentHealth / maxHealth;
 
+        if (currentHealth <= maxHealth / 2f && !hasRoared)
+        {
+            hasRoared = true;
+            if (animator != null)
+                animator.SetBool("IsRoaring", true);
+            Invoke("StopRoar", 3f);
+        }
+
         if (currentHealth <= 0)
             Die();
+    }
+
+    void StopRoar()
+    {
+        if (animator != null)
+            animator.SetBool("IsRoaring", false);
     }
 
     void Die()
