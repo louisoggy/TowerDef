@@ -84,9 +84,6 @@ InitTestScene*.unity*
 /[Aa]ssets/StreamingAssets/aa*
 /[Aa]ssets/AddressableAssetsData/link.xml*
 /[Aa]ssets/Addressables_Temp*
-# By default, Addressables content builds will generate addressables_content_state.bin
-# files in platform-specific subfolders, for example:
-# /Assets/AddressableAssetsData/OSX/addressables_content_state.bin
 /[Aa]ssets/AddressableAssetsData/*/*.bin*
 
 # Visual Scripting auto-generated files
@@ -101,12 +98,15 @@ InitTestScene*.unity*
 # Assets from store
 TowerDef/Assets/FantasyEnvironments/
 TowerDef/Assets/FantasyEnvironments.meta
-TowerDef\Assets\Waldemarstein\FantasyEnvironmentPack\*
-TowerDef\Assets\Waldemarstein\FantasyEnvironmentPack.meta
-TowerDef\Assets\Waldemarst
-TowerDef\Assets\Waldemarst.meta
-
+TowerDef/Assets/Waldemarstein/
+TowerDef/Assets/Waldemarstein.meta
 TowerDef/Assets/Waldemarst/
 TowerDef/Assets/Waldemarst.meta
 TowerDef/Assets/PyroParticles/
 TowerDef/Assets/PyroParticles.meta
+
+# Unity Mono runtime and build output files
+TowerDef/GAME/
+TowerDef/*.exe
+TowerDef/*.dll
+TowerDef/*.dll.meta
