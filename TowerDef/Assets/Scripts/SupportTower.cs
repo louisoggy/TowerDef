@@ -11,7 +11,14 @@ public class SupportTower : MonoBehaviour
     {
         SetupRangeIndicator();
         DrawRangeCircle();
+        lineRenderer.enabled = false;
         ApplyBonus();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            lineRenderer.enabled = !lineRenderer.enabled;
     }
 
     void SetupRangeIndicator()
