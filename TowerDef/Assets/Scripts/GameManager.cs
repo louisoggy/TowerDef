@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     public int playerHealth = 20;
     public int currentWave = 1;
 
+    public GameObject pausePanel;
+    private bool isPaused = false;
+
     // UI text
     public TMP_Text healthText;
     public TMP_Text waveText;
@@ -55,6 +58,13 @@ public class GameManager : MonoBehaviour
             SupportTower[] supportTowers = FindObjectsByType<SupportTower>(FindObjectsSortMode.None);
             foreach (SupportTower s in supportTowers)
                 s.SetRangeVisible(rangeVisible);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+                ResumeGame();
+            else
+                PauseGame();
         }
     }
 
@@ -131,5 +141,25 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    // pause the game
+    public void PauseGame()
+    {
+        isPaused = true;
+        pausePanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
+    // resume the game
+    public void ResumeGame()
+    {
+        isPaused = false;
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    // return to main menu
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }
